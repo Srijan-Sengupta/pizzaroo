@@ -8,7 +8,6 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
     title: "Pizzaroo - Voice-Powered Pizza Ordering",
     description: "Order your favorite pizzas using voice commands with Ollie, your pizza buddy!",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
