@@ -1,7 +1,17 @@
-import type { NextConfig } from "next";
+// next.config.ts
+
+import { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+    reactStrictMode: true,
+    webpack(config, options) {
+        config.module?.rules.push({
+            test: /\.svg$/,
+            use: ['@svgr/webpack'],
+        })
 
-export default nextConfig;
+        return config
+    },
+}
+
+export default nextConfig
