@@ -4,6 +4,7 @@ import Image from "next/image"
 import {Button} from "@/components/ui/button"
 import Hamburger from 'hamburger-react'
 import React from "react";
+import {AnimatePresence, motion} from "framer-motion";
 
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -32,18 +33,26 @@ export function Navbar() {
                 </div>
                 <div className="md:hidden flex items-center space-x-6">
                     <Hamburger toggled={isOpen} toggle={setIsOpen}/>
-                    {isOpen && (
-                        <div className="z-10 absolute w-fit h-fit mt-16 top-0 right-0 pr-2 flex flex-col justify-center items-center space-y-2 backdrop-blur-lg bg-opacity-0">
-                            <Link href="mailto:contact@pannalabs.ai"
-                                  className="text-foreground/80 hover:text-foreground">
-                                Contact Us
-                            </Link>
+                    <AnimatePresence>
+                        {isOpen && (
+                            <motion.div
+                                className="z-10 absolute w-fit h-fit mt-1 top-16 right-0 pr-2 flex flex-col justify-center items-center space-y-3 backdrop-blur-lg bg-opacity-0"
+                                initial={{opacity: 0, y: -20}}
+                                animate={{opacity: 1, y: 0}}
+                                exit={{opacity: 0, y: -20}}
+                                transition={{duration: 0.2}}
+                            >
+                                <Link href="mailto:contact@pannalabs.ai"
+                                      className="text-foreground/80 hover:text-foreground p-2">
+                                    Contact Us
+                                </Link>
 
-                            <Button variant="default" className="bg-primary hover:bg-primary/90">
-                                Start Voice Call
-                            </Button>
-                        </div>
-                    )}
+                                <Button variant="default" className="bg-primary hover:bg-primary/90">
+                                    Start Voice Call
+                                </Button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
         </nav>
