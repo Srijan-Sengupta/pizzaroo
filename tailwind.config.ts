@@ -51,6 +51,14 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        gradStart: {
+          DEFAULT: "hsla(var(--grad-start), 0.2)",
+          foreground: "hsla(var(--grad-start-foreground), 0.2)",
+        },
+        gradEnd: {
+          DEFAULT: "hsla(var(--grad-end), 0.2)",
+          foreground: "hsla(var(--grad-end-foreground), 0.2)",
+        }
       },
       borderRadius: {
         lg: "var(--radius)",

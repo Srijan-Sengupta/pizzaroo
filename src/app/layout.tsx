@@ -18,8 +18,10 @@ export default function RootLayout({
     return (
         <html lang="en" className="dark">
         <body className={inter.className}>
-        <Navbar/>
-        {children}
+        <div className="bg-gradient-to-r from-gradStart to-gradEnd w-full h-full bg-cover">
+            <Navbar/>
+            {children}
+        </div>
         </body>
         </html>
     )
