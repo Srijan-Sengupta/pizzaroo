@@ -1,10 +1,14 @@
 "use client"
 
-import {useState} from "react"
+import {useCallback, useEffect, useRef, useState} from "react"
 import {Card} from "@/components/ui/card"
 import VoiceInput from "@/components/voice-input";
 import OrderDetails from "@/components/orders";
-import {Menu, MenuItem} from "@/components/menu";
+import {Menu} from "@/components/menu";
+import {CallConfig, MenuItem, pizzarooConfig} from "@/lib/types";
+import {getSystemPrompt, selectedTools} from "@/lib/agent-config";
+import {Transcript, UltravoxExperimentalMessageEvent, UltravoxSessionStatus} from "ultravox-client";
+import {endCall, startCall} from "@/lib/callFuncs";
 
 const menuItems: MenuItem[] = [
     {
@@ -94,10 +98,115 @@ const menuItems: MenuItem[] = [
 ]
 
 export default function OrderPage() {
+    const config: pizzarooConfig = {
+        title: "Dr. Donut",
+        overview: "This agent has been prompted to facilitate orders at a fictional drive-thru called Dr. Donut.",
+        callConfig: {
+            systemPrompt: getSystemPrompt(menuItems),
+            model: "fixie-ai/ultravox-70B",
+            languageHint: "en",
+            selectedTools: selectedTools,
+            voice: "terrence",
+            temperature: 0.4,
+            maxDuration: "240s",
+            timeExceededMessage: "This session will expire soon."
+        },
+    };
+
     const [isListening, setIsListening] = useState(false)
+    const [agentStatus, setAgentStatus] = useState<string>('')
+    const [callTranscript, setCallTranscript] = useState<Transcript[] | null>([])
+    const [callDebugMessage, setCallDebugMessage] = useState<UltravoxExperimentalMessageEvent[]>([])
+    const [customerProfileKey, setCustomerProfileKey] = useState<string | null>(null);
+
     const [isMute, setIsMute] = useState(false)
     const [isSpeaking, setIsSpeaking] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<string>("Pizza")
+    const conversationRef = useRef<HTMLDivElement>(null)
+
+    const handleStateChange = useCallback((status: UltravoxSessionStatus | string | undefined) => {
+        if (status) {
+            setAgentStatus(status)
+        } else {
+            setAgentStatus("")
+        }
+    }, [])
+
+    const handleCallDebugMessages = useCallback((messages: UltravoxExperimentalMessageEvent) => {
+        setCallDebugMessage(prevMsg => [...prevMsg, messages])
+    }, [])
+
+    const clearCustomerProfile = useCallback(() => {
+        // This will trigger a re-render of CustomerProfileForm with a new empty profile
+        setCustomerProfileKey(prev => prev ? `${prev}-cleared` : 'cleared');
+    }, []);
+
+    const handleTranscriptChange = useCallback((transcripts: Transcript[] | undefined) => {
+        if (transcripts && transcripts.length > 0) {
+            setCallTranscript([...transcripts])
+        }
+    }, [])
+
+    const handleStartCall = async () => {
+        try {
+            handleStateChange('Starting Call...')
+            setCallTranscript(null)
+            setCallDebugMessage([])
+            clearCustomerProfile()
+
+            const newKey = `call-${Date.now()}`;
+            setCustomerProfileKey(newKey);
+
+            let callConfig: CallConfig = {
+                systemPrompt: config.callConfig.systemPrompt,
+                model: config.callConfig.model,
+                languageHint: config.callConfig.languageHint,
+                voice: config.callConfig.voice,
+                temperature: config.callConfig.temperature,
+                maxDuration: config.callConfig.maxDuration,
+                timeExceededMessage: config.callConfig.timeExceededMessage,
+            }
+            const paramOverride = {
+                "callId": newKey
+            }
+
+            let cpTools = config?.callConfig?.selectedTools?.find(tool => tool.toolName === "createProfile");
+            if (cpTools) {
+                cpTools.parameterOverrides = paramOverride
+            }
+            callConfig.selectedTools = config.callConfig.selectedTools
+            callConfig.systemPrompt = getSystemPrompt(menuItems)
+
+            console.log(config.callConfig.systemPrompt)
+
+            await startCall({
+                onStatusChange: handleStateChange,
+                onTranscriptChange: handleTranscriptChange,
+                onDebugMessage: handleCallDebugMessages
+            }, callConfig, true)
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    const handleEndCallButtonClick = async () => {
+        try {
+            handleStateChange('Ending Call...')
+            await endCall();
+            setIsListening(false);
+
+            clearCustomerProfile();
+            setCustomerProfileKey(null);
+            handleStateChange('Call ended successfully');
+        } catch (error) {
+            handleStateChange(`Error ending call: ${error instanceof Error ? error.message : String(error)}`);
+        }
+    };
+
+    useEffect(() => {
+        if (conversationRef.current)
+            conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
+    }, [callTranscript])
 
     return (
         <div className="mt-16 text-white p-6">
@@ -105,8 +214,12 @@ export default function OrderPage() {
                 {/* Menu Section */}
                 <Menu menuItems={menuItems} category={selectedCategory} setCategory={setSelectedCategory}/>
                 {/* Voice Assistant Section */}
-                <VoiceInput isListening={isListening} setListening={setIsListening} isMute={isMute} setMute={setIsMute}
-                            isSpeaking={isSpeaking} setSpeaking={setIsSpeaking}/>
+                <div className="content-center" onClick={() => {
+                    isListening ? handleEndCallButtonClick() : handleStartCall()
+                }}>
+                    <VoiceInput isListening={isListening} setListening={setIsListening} isMute={isMute}
+                                setMute={setIsMute}
+                                isSpeaking={isSpeaking} setSpeaking={setIsSpeaking}/></div>
 
                 {/* Current Order Section */}
                 <OrderDetails/>

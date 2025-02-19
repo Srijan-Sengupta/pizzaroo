@@ -3,21 +3,7 @@ import {Plus} from "lucide-react";
 import {Card} from "@/components/ui/card";
 import Image from "next/image";
 import {Dispatch} from "react";
-
-export interface Item {
-    id: string
-    name: string
-    description?: string
-    price: number
-    image: string
-}
-
-export interface MenuItem {
-    category_name: string
-    category_avatar: string
-    description?: string
-    items: Item[]
-}
+import {MenuItem} from "@/lib/types";
 
 export function Menu(props: {
     menuItems: MenuItem[];
