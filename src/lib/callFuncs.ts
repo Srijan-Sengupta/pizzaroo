@@ -39,8 +39,7 @@ async function createCall(callConfig: CallConfig, showDebugMessages?: boolean): 
         });
         if (!response.ok) {
             const errorText = await response.text();
-            new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-            console.error(errorText);
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
         const data: JoinUrlResponse = await response.json();
         if (showDebugMessages)
@@ -48,6 +47,7 @@ async function createCall(callConfig: CallConfig, showDebugMessages?: boolean): 
         return data;
     } catch (error) {
         console.error('Error creating call:', error);
+        throw error;
     }
 }
 
