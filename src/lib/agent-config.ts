@@ -2,7 +2,7 @@ import {MenuItem, ParameterLocation, SelectedTool} from "@/lib/types";
 
 export function getSystemPrompt(menu: MenuItem[]) {
     let sysPrompt: string;
-    let categories = menu.map((item: MenuItem) => {item.category_name}).join(" ,")
+    let categories = menu.map((item: MenuItem) => {return item.category_name}).join(" ,")
     let menu_str = menu.map((category: MenuItem) => {
         const header = `\n\t==${category.category_name}==\n\t${category.description}\n`
         const items = category.items.map(item => {
@@ -10,7 +10,6 @@ export function getSystemPrompt(menu: MenuItem[]) {
         }).join('\n\n');
         return header +'\n'+ items;
     }).join('\n\n');
-    console.log(menu_str);
     sysPrompt = `
   # Drive-Thru Order System Configuration
 

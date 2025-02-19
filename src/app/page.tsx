@@ -1,14 +1,14 @@
 "use client"
 
 import {useCallback, useEffect, useRef, useState} from "react"
-import {Card} from "@/components/ui/card"
 import VoiceInput from "@/components/voice-input";
 import OrderDetails from "@/components/orders";
 import {Menu} from "@/components/menu";
 import {CallConfig, MenuItem, pizzarooConfig} from "@/lib/types";
 import {getSystemPrompt, selectedTools} from "@/lib/agent-config";
-import {Transcript, UltravoxExperimentalMessageEvent, UltravoxSessionStatus} from "ultravox-client";
-import {endCall, startCall} from "@/lib/callFuncs";
+import {Role, Transcript, UltravoxExperimentalMessageEvent, UltravoxSessionStatus} from "ultravox-client";
+import {endCall, startCall, toggleMute} from "@/lib/callFuncs";
+import {ChatMessages} from "@/components/chat-bubble";
 
 const menuItems: MenuItem[] = [
     {
@@ -116,8 +116,8 @@ export default function OrderPage() {
     const [isListening, setIsListening] = useState(false)
     const [agentStatus, setAgentStatus] = useState<string>('')
     const [callTranscript, setCallTranscript] = useState<Transcript[] | null>([])
-    const [callDebugMessage, setCallDebugMessage] = useState<UltravoxExperimentalMessageEvent[]>([])
-    const [customerProfileKey, setCustomerProfileKey] = useState<string | null>(null);
+    const [_callDebugMessage, setCallDebugMessage] = useState<UltravoxExperimentalMessageEvent[]>([])
+    const [_customerProfileKey, setCustomerProfileKey] = useState<string | null>(null);
 
     const [isMute, setIsMute] = useState(false)
     const [isSpeaking, setIsSpeaking] = useState(false)
@@ -127,13 +127,15 @@ export default function OrderPage() {
     const handleStateChange = useCallback((status: UltravoxSessionStatus | string | undefined) => {
         if (status) {
             setAgentStatus(status)
+            console.log(status)
         } else {
             setAgentStatus("")
         }
     }, [])
 
     const handleCallDebugMessages = useCallback((messages: UltravoxExperimentalMessageEvent) => {
-        setCallDebugMessage(prevMsg => [...prevMsg, messages])
+        setCallDebugMessage(prevMsg => [messages, ...prevMsg])
+        console.log(messages)
     }, [])
 
     const clearCustomerProfile = useCallback(() => {
@@ -143,7 +145,7 @@ export default function OrderPage() {
 
     const handleTranscriptChange = useCallback((transcripts: Transcript[] | undefined) => {
         if (transcripts && transcripts.length > 0) {
-            setCallTranscript([...transcripts])
+            setCallTranscript([...transcripts.reverse()])
         }
     }, [])
 
@@ -177,8 +179,6 @@ export default function OrderPage() {
             callConfig.selectedTools = config.callConfig.selectedTools
             callConfig.systemPrompt = getSystemPrompt(menuItems)
 
-            console.log(config.callConfig.systemPrompt)
-
             await startCall({
                 onStatusChange: handleStateChange,
                 onTranscriptChange: handleTranscriptChange,
@@ -207,6 +207,19 @@ export default function OrderPage() {
         if (conversationRef.current)
             conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
     }, [callTranscript])
+    useEffect(() => {
+        if (isListening)
+            handleStartCall()
+        else
+            handleEndCallButtonClick()
+    }, [isListening]);
+
+    useEffect(() => {
+        toggleMute(Role.USER)
+    }, [isMute])
+    useEffect(() => {
+        toggleMute(Role.USER)
+    }, [isSpeaking]);
 
     return (
         <div className="mt-16 text-white p-6">
@@ -214,34 +227,18 @@ export default function OrderPage() {
                 {/* Menu Section */}
                 <Menu menuItems={menuItems} category={selectedCategory} setCategory={setSelectedCategory}/>
                 {/* Voice Assistant Section */}
-                <div className="content-center" onClick={() => {
-                    isListening ? handleEndCallButtonClick() : handleStartCall()
-                }}>
-                    <VoiceInput isListening={isListening} setListening={setIsListening} isMute={isMute}
-                                setMute={setIsMute}
-                                isSpeaking={isSpeaking} setSpeaking={setIsSpeaking}/></div>
+                <VoiceInput isListening={isListening} setListening={setIsListening} isMute={isMute}
+                            setMute={setIsMute}
+                            isSpeaking={isSpeaking} setSpeaking={setIsSpeaking}
+                            agentStatus={agentStatus}
+                />
 
                 {/* Current Order Section */}
                 <OrderDetails/>
             </div>
 
             {/* Conversation Section */}
-            <Card className="bg-[#1A1D24]/50 backdrop-blur-md p-6 rounded-2xl mt-6 max-w-7xl mx-auto">
-                <h2 className="text-2xl font-bold mb-6">Conversation</h2>
-
-                <div className="space-y-4">
-                    <div className="bg-[#2A2D35] p-4 rounded-xl">
-                        <p>Hello! Welcome to Pizzaroo. I'm Ollie your Pizza ordering Agent. What would you like to order
-                            today?</p>
-                        <span className="text-sm text-gray-400 block mt-2">10:00 AM</span>
-                    </div>
-
-                    <div className="bg-[#2A2D35] p-4 rounded-xl ml-auto max-w-[80%]">
-                        <p>I'd like to order a large Pepperoni Pizza</p>
-                        <span className="text-sm text-gray-400 block mt-2">10:01 AM</span>
-                    </div>
-                </div>
-            </Card>
+            <ChatMessages messages={callTranscript}/>
         </div>
     )
 }

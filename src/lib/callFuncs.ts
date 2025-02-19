@@ -23,8 +23,6 @@ export function toggleMute(role: Role): void {
             uvSession.isMicMuted ? uvSession.unmuteMic() : uvSession.muteMic();
         else
             uvSession.isSpeakerMuted ? uvSession.unmuteSpeaker() : uvSession.muteSpeaker();
-    } else {
-        console.error('uvSession is not initialized.');
     }
 }
 
@@ -41,7 +39,8 @@ async function createCall(callConfig: CallConfig, showDebugMessages?: boolean): 
         });
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            console.error(errorText);
         }
         const data: JoinUrlResponse = await response.json();
         if (showDebugMessages)
@@ -49,7 +48,6 @@ async function createCall(callConfig: CallConfig, showDebugMessages?: boolean): 
         return data;
     } catch (error) {
         console.error('Error creating call:', error);
-        throw error;
     }
 }
 

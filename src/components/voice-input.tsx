@@ -10,6 +10,7 @@ export default function VoiceInput(props: {
     setMute: Dispatch<boolean>;
     isSpeaking: boolean;
     setSpeaking: Dispatch<boolean>;
+    agentStatus: string;
 }) {
     return (
         <div className="flex flex-col items-center justify-center">
@@ -28,7 +29,7 @@ export default function VoiceInput(props: {
                         <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
                             Ollie
                         </h2>
-                        {props.isListening && (<p className="text-gray-400 mt-2">Listening....</p>)}
+                        {props.isListening && (<p className="text-gray-400 mt-2">{props.agentStatus[0]?.toUpperCase() + props.agentStatus?.slice(1)}</p>)}
                     </div>
                 </div>
                 <AnimatePresence>
