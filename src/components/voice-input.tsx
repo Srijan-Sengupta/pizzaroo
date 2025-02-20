@@ -12,6 +12,14 @@ export default function VoiceInput(props: {
     setSpeaking: Dispatch<boolean>;
     agentStatus: string;
 }) {
+    const toggleCall = () => {
+        if (
+            !props.agentStatus.toLowerCase().includes("start")
+            && !props.agentStatus.toLowerCase().includes("idle")
+            && !props.agentStatus.toLowerCase().includes("connect")) {
+            props.setListening(!props.isListening);
+        }
+    }
     return (
         <div className="flex flex-col items-center justify-center">
             <div className="relative">
@@ -24,12 +32,13 @@ export default function VoiceInput(props: {
                 ></div>
                 <div
                     className="absolute inset-2 h-[15rem] w-[15rem] bg-[#1A1D24] rounded-full flex items-center justify-center"
-                    onClick={() => props.setListening(!props.isListening)}>
+                    onClick={() => toggleCall()}>
                     <div className="text-center">
                         <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
                             Ollie
                         </h2>
-                        {props.isListening && (<p className="text-gray-400 mt-2">{props.agentStatus[0]?.toUpperCase() + props.agentStatus?.slice(1)}</p>)}
+                        {props.isListening && (
+                            <p className="text-gray-400 mt-2">{props.agentStatus[0]?.toUpperCase() + props.agentStatus?.slice(1)}</p>)}
                     </div>
                 </div>
                 <AnimatePresence>
@@ -44,11 +53,15 @@ export default function VoiceInput(props: {
                                     onClick={() => props.setMute(!props.isMute)}>
                                 <MicOff className="w-5 h-5"/>
                             </Button>
-                            <Button size="icon" variant="destructive" className="rounded-full" onClick={() => {props.setListening(false)}}>
+                            <Button size="icon" variant="destructive" className="rounded-full" onClick={() => {
+                                toggleCall()
+                            }}>
                                 <PhoneOff className="w-5 h-5"/>
                             </Button>
-                            <Button size="icon" variant={(props.isSpeaking)? "secondary":"destructive"}
-                                    className="rounded-full bg-[#2A2D35] hover:bg-[#2A2D35]/80" onClick={()=>   {props.setSpeaking(!props.isSpeaking)}}>
+                            <Button size="icon" variant={(props.isSpeaking) ? "secondary" : "destructive"}
+                                    className="rounded-full bg-[#2A2D35] hover:bg-[#2A2D35]/80" onClick={() => {
+                                props.setSpeaking(!props.isSpeaking)
+                            }}>
                                 <Volume2 className="w-5 h-5"/>
                             </Button>
                         </motion.div>

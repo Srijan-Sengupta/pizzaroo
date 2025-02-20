@@ -21,7 +21,7 @@ export function ChatBubble({message, name}: ChatBubbleProps) {
 
 export function ChatMessages(props: { messages: Transcript[] | null }) {
     return (<>
-            {props.messages && (
+            {(props.messages && props.messages.length>0) && (
                 <Card className="bg-[#1A1D24]/50 backdrop-blur-md p-6 rounded-2xl mt-6 max-w-7xl mx-auto">
                     <h2 className="text-2xl font-bold mb-6">Conversation</h2>
 
