@@ -38,9 +38,11 @@ export function Menu(props: {
   dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
                 {props.menuItems.filter((item) => item.category_name == props.category).map((item) => item.items).flat().map((item) => (
                     <div key={item.id} className="relative group bg-[#1E2128] rounded-xl p-4 flex gap-4">
-                        <img
+                        <Image
                             src={item.image || "/file.svg"}
                             alt={item.name}
+                            with={24}
+                            height={24}
                             className="w-24 h-24 rounded-lg object-cover"
                         />
                         <div className="flex-1">
