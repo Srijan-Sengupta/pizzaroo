@@ -98,6 +98,7 @@ export const selectedTools: SelectedTool[] = [
                             "type": "object",
                             "properties": {
                                 "name": { "type": "string", "description": "The name of the item to be added to the order." },
+                                "specialInstructions": { "type": "string", "description": "Any special instructions that pertain to the item." },
                                 "quantity": { "type": "number", "description": "The quantity of the item for the order." },
                                 "price": { "type": "number", "description": "The unit price for the item." },
                             },

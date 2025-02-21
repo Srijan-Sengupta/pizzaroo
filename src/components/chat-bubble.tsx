@@ -26,9 +26,9 @@ export function ChatMessages(props: { messages: Transcript[] | null }) {
                     <h2 className="text-2xl font-bold mb-6">Conversation</h2>
 
                     <div className="space-y-4">
-                        {props.messages?.map((message:Transcript) => {
+                        {props.messages?.map((message:Transcript, index) => {
                             return (
-                                <div key={message.text}
+                                <div key={index}
                                      className={`p-4 rounded-xl w-fit h-fit ${(message?.speaker == Role.USER) ? " content-end bg-primary text-foreground" : "content-center bg-secondary text-foreground"}`}>
                                     <p>{message?.text}</p>
                                 </div>
