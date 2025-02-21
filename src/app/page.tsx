@@ -13,85 +13,190 @@ import {ChatMessages} from "@/components/chat-bubble";
 const menuItems: MenuItem[] = [
     {
         category_name: 'Pizza',
-        category_avatar: '/file.svg', // Emoji for pizza
+        category_avatar: '/menu-pizza.svg', // Emoji for pizza
         description: 'Our special pizza menu with delicious crust and toppings.',
         items: [
             {
                 id: 'p1',
-                name: 'Margherita Pizza',
-                description: 'Classic pizza with mozzarella, tomatoes, and basil.',
-                price: 10.99,
-                image: '/file.svg',
+                name: 'Pepperoni Pizza',
+                description: 'Pizza topped with spicy pepperoni and mozzarella.',
+                price: 14.99,
+                image: '/pizza/Pepperoni.svg',
             },
             {
                 id: 'p2',
-                name: 'Pepperoni Pizza',
-                description: 'Pizza topped with spicy pepperoni and mozzarella.',
+                name: 'Margherita Pizza',
+                description: 'Classic pizza with mozzarella, tomatoes, and basil.',
                 price: 12.99,
-                image: '/file.svg',
+                image: '/pizza/Margherita.svg',
             },
             {
                 id: 'p3',
                 name: 'BBQ Chicken Pizza',
                 description: 'BBQ sauce, chicken, red onions, and mozzarella.',
-                price: 14.99,
-                image: '/file.svg',
+                price: 15.99,
+                image: '/pizza/BBQ Chicken.svg',
             },
+            {
+                id: 'p4',
+                name: 'Veggie Supreme',
+                description: 'Tomato sauce, bell peppers, onions, mushrooms, olives, spinach, and mozzarella.',
+                price: 13.99,
+                image: '/pizza/Veggie Supreme.svg'
+            },
+            {
+                id: 'p7',
+                name: 'Sicilian Pizza',
+                description: 'Thick crust, marinara sauce, pepperoni, sausage, green peppers, onions, and mozzarella cheese.',
+                price: 16.99,
+                image: '/pizza/Sicilian.svg'
+            },
+            {
+                id: 'p8',
+                name: 'California Pizza',
+                description: 'Olive oil base, fresh tomatoes, basil, mozzarella, goat cheese, and arugula.',
+                price: 17.99,
+                image: '/pizza/california.svg'
+            },
+            {
+                id: 'p9',
+                name: 'Chicago Pizza',
+                description: 'Deep dish crust with layers of mozzarella, Italian sausage, marinara sauce, and a sprinkle of Parmesan.',
+                price: 18.99,
+                image: '/pizza/Chicago.svg'
+            },
+            {
+                id: 'p10',
+                name: 'Greek Pizza',
+                description: 'Olive oil base, feta cheese, Kalamata olives, red onions, spinach, and tomatoes.',
+                price: 14.99,
+                image: '/pizza/greek.svg'
+            }
         ],
     },
     {
         category_name: 'Drinks',
-        category_avatar: '/file.svg', // Emoji for drinks
+        category_avatar: '/menu-drinks.svg', // Emoji for drinks
         description: 'A variety of refreshing drinks to go with your meal.',
         items: [
             {
                 id: 'd1',
-                name: 'Coca Cola',
-                description: 'Classic fizzy cola drink.',
-                price: 2.49,
-                image: 'file.svg',
+                name: 'Pepsi',
+                description: 'Refreshing carbonated cola beverage.',
+                price: 2.99,
+                image: '/drinks/Pepsi.svg'
             },
             {
                 id: 'd2',
-                name: 'Lemonade',
-                description: 'Freshly squeezed lemonade with a hint of mint.',
-                price: 3.49,
-                image: '/file.svg',
+                name: 'Dr. Pepper',
+                description: 'A unique blend of 23 flavors in a carbonated soft drink.',
+                price: 2.99,
+                image: '/drinks/Dr Pepper.svg'
             },
             {
                 id: 'd3',
+                name: 'Mountain Dew',
+                description: 'Citrusy, refreshing carbonated soft drink with a kick of energy.',
+                price: 2.99,
+                image: '/drinks/Mountain Dew.svg'
+            },
+            {
+                id: 'd4',
+                name: 'Sprite',
+                description: 'Crisp, lemon-lime flavored carbonated soft drink.',
+                price: 2.99,
+                image: '/drinks/Sprite.svg'
+            },
+            {
+                id: 'd5',
+                name: 'Fanta',
+                description: 'Fruity and sweet carbonated soft drink available in a variety of flavors.',
+                price: 2.99,
+                image: '/drinks/Fanto.svg'
+            },
+            {
+                id: 'd6',
+                name: 'Schweppes',
+                description: 'Crisp, refreshing carbonated drink with a variety of flavors like ginger ale and tonic water.',
+                price: 2.99,
+                image: '/drinks/Schweppes.svg'
+            },
+            {
+                id: 'd7',
+                name: 'Coca Cola',
+                description: 'Classic fizzy cola drink.',
+                price: 2.49,
+                image: '/drinks/Coke.svg',
+            },
+            {
+                id: 'd8',
                 name: 'Iced Tea',
                 description: 'Cool and refreshing iced tea, served with lemon.',
                 price: 2.99,
-                image: '/file.svg',
+                image: '/drinks/Canadian Dry.svg',
             },
         ],
     },
     {
         category_name: 'Sides',
-        category_avatar: '/file.svg', // Emoji for sides (fries)
+        category_avatar: '/menu-sides.svg',
         description: 'Tasty sides to complement your meal.',
         items: [
             {
                 id: 's1',
-                name: 'French Fries',
-                description: 'Crispy golden fries, salted to perfection.',
+                name: 'Pudding',
+                description: 'Creamy, smooth vanilla pudding topped with a hint of caramel or chocolate.',
                 price: 3.99,
-                image: '/file.svg',
+                image: '/sides/pudding 1.svg'
             },
             {
                 id: 's2',
-                name: 'Garlic Bread',
-                description: 'Toasted bread with garlic butter and herbs.',
-                price: 4.49,
-                image: '/file.svg',
+                name: 'Apple Pie',
+                description: 'Warm, flaky crust filled with cinnamon-spiced apples and a sweet, buttery filling.',
+                price: 4.99,
+                image: '/sides/apple pie 1.svg'
             },
             {
                 id: 's3',
-                name: 'Caesar Salad',
-                description: 'Crisp romaine lettuce with Caesar dressing, croutons, and parmesan.',
-                price: 5.99,
-                image: '/file.svg',
+                name: 'Ice Cream',
+                description: 'Rich and creamy vanilla ice cream, with options for chocolate, strawberry, or toppings.',
+                price: 3.99,
+                image: '/sides/ice cream 1.svg'
+            },
+            {
+                id: 's4',
+                name: 'Apfelstrudel',
+                description: 'Traditional Austrian pastry filled with spiced apples, raisins, and cinnamon, wrapped in a flaky pastry crust.',
+                price: 5.49,
+                image: '/sides/Apfelstrudel.svg'
+            },
+            {
+                id: 's5',
+                name: 'Brownies',
+                description: 'Rich, fudgy chocolate brownies with a soft, gooey center and a slightly crisp top.',
+                price: 3.99,
+                image: '/sides/Brownies.svg'
+            },
+            {
+                id: 's6',
+                name: 'Cannoli',
+                description: 'Crispy, golden pastry shells filled with sweet ricotta cheese and chocolate chips, dusted with powdered sugar.',
+                price: 4.99,
+                image: '/sides/Cannoli.svg'
+            },
+            {
+                id: 's7',
+                name: 'Cardamom Buns',
+                description: 'Soft, fluffy buns flavored with aromatic cardamom, cinnamon, and sugar, perfect for a sweet treat.',
+                price: 3.99,
+                image: '/sides/Cardamom Buns.svg'
+            },
+            {
+                id: 's8',
+                name: 'Doughnuts',
+                description: 'Freshly baked doughnuts, glazed or sprinkled with sugar, available in a variety of flavors.',
+                price: 2.99,
+                image: '/sides/Donut.svg'
             },
         ],
     },

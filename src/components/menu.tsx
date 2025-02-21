@@ -29,11 +29,17 @@ export function Menu(props: {
                 ))}
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-4 overflow-auto sm:h-[20vh] md:h-[20vh] lg:h-[70vh] [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:rounded-full
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
                 {props.menuItems.filter((item) => item.category_name == props.category).map((item) => item.items).flat().map((item) => (
                     <div key={item.id} className="relative group bg-[#1E2128] rounded-xl p-4 flex gap-4">
                         <img
-                            src={item.image || "/placeholder.svg"}
+                            src={item.image || "/file.svg"}
                             alt={item.name}
                             className="w-24 h-24 rounded-lg object-cover"
                         />
