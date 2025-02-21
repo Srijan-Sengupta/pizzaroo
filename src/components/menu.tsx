@@ -41,7 +41,7 @@ export function Menu(props: {
                         <Image
                             src={item.image || "/file.svg"}
                             alt={item.name}
-                            with={24}
+                            width={24}
                             height={24}
                             className="w-24 h-24 rounded-lg object-cover"
                         />
