@@ -229,7 +229,7 @@ export default function OrderPage() {
     const [selectedCategory, setSelectedCategory] = useState<string>("Pizza")
     const conversationRef = useRef<HTMLDivElement>(null)
 
-    const isMobile = (window.innerWidth <= 768)
+    const [isMobile, setIsMobile] = useState(false)
 
     const handleStateChange = useCallback((status: UltravoxSessionStatus | string | undefined) => {
         if (status) {
@@ -327,6 +327,17 @@ export default function OrderPage() {
     useEffect(() => {
         toggleMute(Role.USER)
     }, [isSpeaking]);
+    useEffect(() => {
+        const handleResize = () =>{
+            setIsMobile(window.innerWidth <= 768)
+            console.log("Is mobile:" + isMobile)
+        }
+        window.addEventListener('resize', handleResize)
+        handleResize()
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, []);
 
     return (
         <div className="mt-16 text-white p-6">
