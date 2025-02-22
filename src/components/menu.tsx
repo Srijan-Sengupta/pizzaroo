@@ -29,7 +29,7 @@ export function Menu(props: {
                 ))}
             </div>
 
-            <div className="grid gap-4 overflow-auto h-[20vh] lg:h-[70vh] md:h-[20vh] [&::-webkit-scrollbar]:w-2
+            <div className="grid gap-4 overflow-auto h-[20vh] lg:h-[65vh] md:h-[20vh] [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
