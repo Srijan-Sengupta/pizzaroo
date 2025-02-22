@@ -229,6 +229,8 @@ export default function OrderPage() {
     const [selectedCategory, setSelectedCategory] = useState<string>("Pizza")
     const conversationRef = useRef<HTMLDivElement>(null)
 
+    const isMobile = (window.innerWidth <= 768)
+
     const handleStateChange = useCallback((status: UltravoxSessionStatus | string | undefined) => {
         if (status) {
             setAgentStatus(status)
@@ -328,19 +330,33 @@ export default function OrderPage() {
 
     return (
         <div className="mt-16 text-white p-6">
-            <div className="grid grid-cols-1 md:grid-cols-[350px_1fr_350px] gap-6 max-w-7xl mx-auto">
-                {/* Menu Section */}
-                <Menu menuItems={menuItems} category={selectedCategory} setCategory={setSelectedCategory}/>
-                {/* Voice Assistant Section */}
-                <VoiceInput isListening={isListening} setListening={setIsListening} isMute={isMute}
-                            setMute={setIsMute}
-                            isSpeaking={isSpeaking} setSpeaking={setIsSpeaking}
-                            agentStatus={agentStatus}
-                />
+            {isMobile ? (<div className="grid grid-cols-1 md:grid-cols-[350px_1fr_350px] gap-6 max-w-7xl mx-auto">
+                    {/* Voice Assistant Section */}
+                    <VoiceInput isListening={isListening} setListening={setIsListening} isMute={isMute}
+                                setMute={setIsMute}
+                                isSpeaking={isSpeaking} setSpeaking={setIsSpeaking}
+                                agentStatus={agentStatus}
+                    />
+                    {/* Menu Section */}
+                    <Menu menuItems={menuItems} category={selectedCategory} setCategory={setSelectedCategory}/>
 
-                {/* Current Order Section */}
-                <OrderDetails/>
-            </div>
+                    {/* Current Order Section */}
+                    <OrderDetails/>
+                </div>
+            ) : (<div className="grid grid-cols-1 md:grid-cols-[350px_1fr_350px] gap-6 max-w-7xl mx-auto">
+                    {/* Menu Section */}
+                    <Menu menuItems={menuItems} category={selectedCategory} setCategory={setSelectedCategory}/>
+                    {/* Voice Assistant Section */}
+                    <VoiceInput isListening={isListening} setListening={setIsListening} isMute={isMute}
+                                setMute={setIsMute}
+                                isSpeaking={isSpeaking} setSpeaking={setIsSpeaking}
+                                agentStatus={agentStatus}
+                    />
+
+                    {/* Current Order Section */}
+                    <OrderDetails/>
+                </div>
+            )}
 
             {/* Conversation Section */}
             <ChatMessages messages={callTranscript}/>
