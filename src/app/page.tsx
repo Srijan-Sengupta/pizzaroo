@@ -1,6 +1,6 @@
 "use client"
 
-import {useCallback, useEffect, useRef, useState} from "react"
+import React, {useCallback, useEffect, useRef, useState} from "react"
 import VoiceInput from "@/components/voice-input";
 import OrderDetails from "@/components/orders";
 import {Menu} from "@/components/menu";
@@ -9,6 +9,7 @@ import {getSystemPrompt, selectedTools} from "@/lib/agent-config";
 import {Role, Transcript, UltravoxExperimentalMessageEvent, UltravoxSessionStatus} from "ultravox-client";
 import {endCall, startCall, toggleMute} from "@/lib/callFuncs";
 import {ChatMessages} from "@/components/chat-bubble";
+import {Button} from "@/components/ui/button";
 
 const menuItems: MenuItem[] = [
     {
@@ -343,6 +344,9 @@ export default function OrderPage() {
         <div className="mt-16 text-white p-6">
             {isMobile ? (<div className="grid grid-cols-1 md:grid-cols-[350px_1fr_350px] gap-6 max-w-7xl mx-auto">
                     {/* Voice Assistant Section */}
+                    <Button variant="default" className="bg-primary hover:bg-primary/90" onClick={() => {window.open("https://forms.gle/EEmE88wesyDubc3s6", "_blank")}}>
+                        Join Our Waitlist
+                    </Button>
                     <VoiceInput isListening={isListening} setListening={setIsListening} isMute={isMute}
                                 setMute={setIsMute}
                                 isSpeaking={isSpeaking} setSpeaking={setIsSpeaking}

@@ -27,8 +27,8 @@ export function Navbar() {
                         Contact Us
                     </Link>
 
-                    <Button variant="default" className="bg-primary hover:bg-primary/90">
-                        Start Voice Call
+                    <Button variant="default" className="bg-primary hover:bg-primary/90" onClick={() => {window.open("https://forms.gle/EEmE88wesyDubc3s6", "_blank")}}>
+                        Join our Waitlist
                     </Button>
                 </div>
                 <div className="md:hidden flex items-center space-x-6">
@@ -46,10 +46,6 @@ export function Navbar() {
                                       className="text-foreground/80 hover:text-foreground p-2">
                                     Contact Us
                                 </Link>
-
-                                <Button variant="default" className="bg-primary hover:bg-primary/90">
-                                    Start Voice Call
-                                </Button>
                             </motion.div>
                         )}
                     </AnimatePresence>

@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button";
 import {MicOff, PhoneOff, Volume2} from "lucide-react";
-import {Dispatch} from "react";
+import React, {Dispatch} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 
 export default function VoiceInput(props: {
