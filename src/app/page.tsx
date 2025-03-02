@@ -212,7 +212,7 @@ export default function OrderPage() {
             model: "fixie-ai/ultravox-70B",
             languageHint: "en",
             selectedTools: selectedTools,
-            voice: "terrence",
+            voice: "9eb6a57b-e9b4-435c-8284-25f5d9594879",
             temperature: 0.4,
             maxDuration: "240s",
             timeExceededMessage: "This session will expire soon."
